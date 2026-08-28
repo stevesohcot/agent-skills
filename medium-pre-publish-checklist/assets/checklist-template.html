@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Medium Pre-Publish Checklist</title>
+<style>
+  :root {
+    --brand: #4F46E5;
+    --brand-light: #EEF2FF;
+    --bg: #FAFAF8;
+    --card: #FFFFFF;
+    --border: #E4E2DA;
+    --text: #1E1E1C;
+    --text-secondary: #6B6A64;
+    --text-muted: #9B9A93;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px 64px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  .top-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  h1 { font-size: 18px; font-weight: 600; margin: 0; flex: 1; }
+  .progress-pill {
+    font-size: 12px; font-weight: 600; color: var(--brand);
+    background: var(--brand-light); padding: 4px 10px; border-radius: 999px;
+    white-space: nowrap;
+  }
+  .progress-track {
+    height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin: 12px 0 20px;
+  }
+  .progress-fill {
+    height: 100%; background: var(--brand); width: 0%; transition: width 0.25s ease;
+  }
+  .note-text { font-size: 12px; color: var(--text-secondary); margin: 0 0 16px; }
+  textarea, .note-box {
+    width: 100%; font-family: inherit; font-size: 13px; color: var(--text);
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px;
+  }
+  textarea { resize: vertical; }
+  textarea:focus, .note-box:focus { outline: none; border-color: var(--brand); }
+  .note-box {
+    min-height: 24px; white-space: pre-wrap; word-break: break-word; line-height: 1.5;
+  }
+  .note-box:empty::before {
+    content: attr(data-placeholder); color: var(--text-muted);
+  }
+  .item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 8px; overflow: hidden;
+  }
+  .item.done { border-color: var(--brand); }
+  .item-header {
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer;
+  }
+  .item-header input[type="checkbox"] {
+    width: 18px; height: 18px; accent-color: var(--brand); cursor: pointer; flex-shrink: 0;
+  }
+  .item-title {
+    flex: 1; font-size: 14px; font-weight: 500;
+  }
+  .item.done .item-title { color: var(--text-muted); text-decoration: line-through; }
+  .chevron {
+    font-size: 20px; color: var(--text-muted); transition: transform 0.15s ease; flex-shrink: 0;
+    line-height: 1; padding: 2px 4px;
+  }
+  .chevron.open { transform: rotate(90deg); }
+  .item-body { padding: 0 14px 14px 42px; display: none; }
+  .item-body.open { display: block; }
+  .item-body textarea { min-height: 160px; }
+  .char-count { font-size: 11px; color: var(--text-muted); margin-top: 4px; text-align: right; }
+  .char-count.over { color: #C0392B; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-row">
+    <h1>Medium pre-publish checklist</h1>
+    <span class="progress-pill" id="progressPill">0 / 7</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <p class="note-text">Below is a summary; see the full response for complete detail and formatting.</p>
+
+  <div id="items"></div>
+</div>
+
+<script>
+// SEED_NOTES is filled in per-article before this file is saved.
+// Leave values empty ("") to ship a blank scratch checklist instead.
+// Note: nothing here is saved — checks and edits only last for this viewing session.
+const SEED_NOTES = {
+  title: "",
+  keywords: "",
+  seo_title: "",
+  meta: "",
+  hero: "",
+  grammar: "",
+  content: ""
+};
+
+const ITEMS = [
+  { id: "title", title: "Title" },
+  { id: "keywords", title: "Keywords" },
+  { id: "seo_title", title: "SEO-Friendly Title" },
+  { id: "meta", title: "Meta Description (Subtitle)" },
+  { id: "hero", title: "Hero Image Prompt" },
+  { id: "grammar", title: "Grammar / Spelling Pass" },
+  { id: "content", title: "Content" }
+];
+
+let state = { checks: {}, notes: { ...SEED_NOTES } };
+let openId = null;
+
+function renderProgress() {
+  const done = ITEMS.filter(i => state.checks[i.id]).length;
+  document.getElementById("progressPill").textContent = done + " / " + ITEMS.length;
+  document.getElementById("progressFill").style.width = Math.round((done / ITEMS.length) * 100) + "%";
+}
+
+function renderItems() {
+  const container = document.getElementById("items");
+  container.innerHTML = "";
+  ITEMS.forEach(item => {
+    const isDone = !!state.checks[item.id];
+    const isOpen = openId === item.id;
+    const noteVal = state.notes[item.id] || "";
+
+    const el = document.createElement("div");
+    el.className = "item" + (isDone ? " done" : "");
+
+    const header = document.createElement("div");
+    header.className = "item-header";
+
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = isDone;
+    cb.addEventListener("click", (e) => e.stopPropagation());
+    cb.addEventListener("change", () => {
+      state.checks[item.id] = cb.checked;
+      renderProgress();
+      el.classList.toggle("done", cb.checked);
+      titleSpan.classList.toggle("done", cb.checked);
+    });
+
+    const titleSpan = document.createElement("span");
+    titleSpan.className = "item-title";
+    titleSpan.textContent = item.title;
+
+    const chevron = document.createElement("span");
+    chevron.className = "chevron" + (isOpen ? " open" : "");
+    chevron.textContent = "▸";
+
+    header.appendChild(cb);
+    header.appendChild(titleSpan);
+    header.appendChild(chevron);
+    header.addEventListener("click", () => {
+      openId = isOpen ? null : item.id;
+      renderItems();
+    });
+
+    const body = document.createElement("div");
+    body.className = "item-body" + (isOpen ? " open" : "");
+
+    let countEl = null;
+    let fieldEl;
+    if (item.limit) {
+      fieldEl = document.createElement("textarea");
+      fieldEl.placeholder = "Paste the generated content or notes here...";
+      fieldEl.value = noteVal;
+      fieldEl.addEventListener("input", () => {
+        state.notes[item.id] = fieldEl.value;
+        updateCharCount(fieldEl.value.length, item.limit, countEl);
+      });
+    } else {
+      fieldEl = document.createElement("div");
+      fieldEl.className = "note-box";
+      fieldEl.contentEditable = "true";
+      fieldEl.setAttribute("data-placeholder", "Paste the generated content or notes here...");
+      fieldEl.textContent = noteVal;
+      fieldEl.addEventListener("input", () => {
+        state.notes[item.id] = fieldEl.textContent;
+      });
+    }
+    body.appendChild(fieldEl);
+
+    if (item.limit) {
+      countEl = document.createElement("div");
+      countEl.className = "char-count";
+      updateCharCount(noteVal.length, item.limit, countEl);
+      body.appendChild(countEl);
+    }
+
+    el.appendChild(header);
+    el.appendChild(body);
+    container.appendChild(el);
+  });
+}
+
+function updateCharCount(len, limit, el) {
+  el.textContent = len + " / " + limit + " characters";
+  el.classList.toggle("over", len > limit);
+}
+
+renderItems();
+renderProgress();
+</script>
+</body>
+</html>
