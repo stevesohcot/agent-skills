@@ -1,0 +1,9 @@
+interface:
+  display_name: "Medium Pre-Publish Checklist"
+  short_description: "Runs a 7-part pre-publish checklist on a Medium article and returns an interactive HTML checklist"
+  icon_small: "./assets/icon-small.svg"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#00AE80"
+
+policy:
+  allow_implicit_invocation: false

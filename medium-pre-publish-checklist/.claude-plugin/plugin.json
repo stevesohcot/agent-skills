@@ -1,0 +1,10 @@
+{
+  "name": "medium-pre-publish-checklist",
+  "displayName": "Medium Pre-Publish Checklist",
+  "version": "1.0.1",
+  "description": "Runs a 7-part pre-publish checklist on a Medium article and returns an interactive HTML checklist",
+  "author": { "name": "Steve Sohcot", "url": "https://stevesohcot.com" },
+  "license": "MIT",
+  "skills": ["./"],
+  "icon": "./assets/icon-large.png"
+}
