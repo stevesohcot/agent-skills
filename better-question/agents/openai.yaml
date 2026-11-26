@@ -1,0 +1,9 @@
+interface:
+  display_name: "Better Question"
+  short_description: "A prompt thinking coach that analyzes a user's draft prompt and suggests improvements without answering the original question"
+  icon_small: "./assets/icon-small.svg"
+  icon_large: "./assets/icon-large.png"
+  brand_color: "#3B82F6"
+
+policy:
+  allow_implicit_invocation: false

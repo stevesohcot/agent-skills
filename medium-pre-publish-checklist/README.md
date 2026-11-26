@@ -25,8 +25,6 @@ The agent returns all seven sections as text (title options, keywords, SEO title
 1. Download the **entire folder** — `SKILL.md` and the `assets/` folder together — from the [`medium-pre-publish-checklist` folder](https://github.com/stevesohcot/agent-skills/tree/main/medium-pre-publish-checklist) as a .zip
 2. Upload / Install - may vary based on your AI Agent, but something like Settings >> Capabilities or Plugins >> Skills >> Upload skill, or, for CLI-based agents, copy the folder into your agent's skills directory
 
-
-
 ## Repository structure
 
 This skill lives inside the [`agent-skills`](https://github.com/stevesohcot/agent-skills) monorepo, alongside other Agent Skills:
@@ -66,7 +64,7 @@ No extra setup. Fetching a draft URL needs an assistant with web access, and the
 
 ## Changelog / Version
 
-- **v1.0.1** — 11/26/26 — Generic for more AI Assistants (ex. ChatGPT), minor updates
+- **v1.0.1** — 11/25/26 — Made tool-agnostic for more AI assistants, minor updates
 - **v1.0.0** — 8/28/26 — Initial release
 
 ## License

@@ -1,7 +1,7 @@
 ---
 name: medium-pre-publish-checklist
 description: >
-  Runs a seven-part Medium.com pre-publish checklist — title, keywords, SEO-friendly title, meta description/subtitle, hero image prompt, grammar/spelling pass, and content review (angle, accuracy, structure). Final output will be an interactive checklist.
+  Runs a 7-part Medium.com pre-publish checklist — title, keywords, SEO-friendly title, meta description/subtitle, hero image prompt, grammar/spelling pass, and content review (angle, accuracy, structure). Final output will be an interactive checklist.
   Activate only when the user explicitly selects or invokes the medium-pre-publish-checklist skill.
   Do not activate automatically based on the user's wording or Medium-related requests.
 disable-model-invocation: true
@@ -69,7 +69,7 @@ Present the candidates as a table: **Candidate | Strength | Risk** — one hones
 ### 2. Keywords
 "Keywords" here means keywords, topics, and reader interests interchangeably; whatever terms capture what the article is actually about and who would search for it.
 
-**Generate 10 candidates**, based on the draft content. Do not guess based on what's popular and related to this topic and don't pad with generic terms the article doesn't support.
+**Generate 10 candidates** based on the draft — don't guess from what's popular in this topic, and don't pad with generic terms the article doesn't support.
 
 Rank them from most to least useful, based on two things:
 - How central the term is to the article
@@ -108,7 +108,7 @@ Produce a **ready-to-use image generation prompt**: a single paste-able paragrap
 
 The prompt should specify:
 - The subject/composition — a specific visual scene or metaphor drawn from the article's actual central concept, not a literal restatement of the text
-- Compose it as a wide, landscape-oriented image; suited for a horizontal header banner (not square or portrait).
+- Orientation — wide landscape, suited for a horizontal header banner (not square or portrait)
 - Style/mood inferred from the article's own tone (e.g. minimalist/technical, warm/narrative, bold/editorial). Don't default to any fixed palette or brand.
 - An explicit instruction to avoid rendering readable text in the image, since image generators are not reliable at rendering text
 
@@ -119,7 +119,7 @@ Keep the visual-description portion (everything after the colon) to roughly 2–
 Also supply 3 search terms to use for a user to search stock photos, labeled as "Fallback Search Terms". Pull them from what's actually depicted or discussed in the article, not generic category words.
 
 ### 6. Grammar / Spelling Pass
-- Go through the draft and list corrections as **before → after** pairs with a one-phrase reason (typo, subject-verb agreement, comma splice, etc.), grouped in the order they appear.
+- Go through the draft and list corrections as **before → after** pairs with a one-phrase reason (typo, subject-verb agreement, comma splice, etc.), listed in the order they appear.
 - Don't rewrite style or voice — only fix actual errors. If a sentence is awkward but not wrong, leave it and don't flag it as an "error."
 
 ### 7. Content
@@ -148,7 +148,7 @@ After presenting the seven sections as text, always produce the accompanying int
 
 1. Copy `assets/checklist-template.html` to a writable location (e.g. `/home/claude/`).
 2. Edit the copy:
-   - Fill in `SEED_NOTES` with the actual generated content for each section — the winning title option, the top 5 recommended keywords, the winning SEO-Friendly Title option (with its character count noted), the Meta Description (with its character count noted), the hero image prompt and the 3 Fallback Search Terms, a summary of the grammar/spelling corrections suggested, and a summary of the Content section (the different-angle possibility, a summary of the accuracy-check findings, and a summary of the structure/flow findings). Escape quotes/newlines for a JS string (`\n` for line breaks, `\"` for double quotes, or switch that field to backticks if the content itself contains double quotes).
+   - Fill in `SEED_NOTES` with the actual generated content for each section — the winning title option, the top 5 recommended keywords, the winning SEO-Friendly Title option (with its character count noted), the Meta Description (with its character count noted), the hero image prompt and the 3 Fallback Search Terms, a summary of the grammar/spelling corrections suggested, and a summary of the Content section (the different-angle possibility, a summary of the accuracy-check findings, and a summary of the structure/flow findings). Escape each value as a valid JS string: `\n` for line breaks and `\"` for double quotes. (If you switch a field to backticks instead, escape any backticks as `` \` `` and `${` as `\${`.)
 3. Save the edited file as `<slug>-checklist.html` wherever your environment places user-downloadable output files (e.g. `/mnt/user-data/outputs/` on Claude.ai).
 4. Make the file available to the author using whatever your environment provides for sharing or presenting files (e.g. `present_files` on Claude.ai, or a download link), so they can open it and check items off. If you can't create files, output the full HTML in a code block so the author can save it themselves.
 

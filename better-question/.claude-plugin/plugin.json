@@ -1,0 +1,10 @@
+{
+  "name": "better-question",
+  "displayName": "Better Question",
+  "version": "1.0.0",
+  "description": "A prompt thinking coach that analyzes a user's draft prompt and suggests improvements without answering the original question",
+  "author": { "name": "Steve Sohcot", "url": "https://stevesohcot.com" },
+  "license": "MIT",
+  "skills": ["./"],
+  "icon": "./assets/icon-large.png"
+}

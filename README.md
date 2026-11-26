@@ -1,27 +1,29 @@
-# claude-skills
+# agent-skills
 
-> A collection of [Claude Skills](https://github.com/anthropics/skills) I've built — reusable, repeatable workflows for Claude to run on demand.
+> A collection of [Agent Skills](https://agentskills.io) I've built — reusable, repeatable workflows for AI agents to run on demand. Agent Skills are an open format supported by both [Anthropic (Claude)](https://github.com/anthropics/skills) and [OpenAI (Codex)](https://github.com/openai/skills).
 
 ## Skills
 
 | Skill | What it does |
 |---|---|
+| [`better-question`](./better-question) | Coaches you on a draft prompt without answering it — points out what's missing, fills the gaps with stated assumptions, and hands back an improved, ready-to-use prompt. |
 | [`medium-pre-publish-checklist`](./medium-pre-publish-checklist) | Runs a 7-part editorial pass on a Medium draft — title, keywords, SEO title, meta description, hero image prompt, grammar pass, and content review — and hands back an interactive checklist. |
 
 *More skills will be added here as they're built.*
 
-## Using these skills
+## Installation
 
-Each skill lives in its own folder with a `SKILL.md` (the instructions Claude reads) and its own `README.md` (usage details, examples, and limitations for humans browsing this repo). See the individual skill's README for install steps specific to it.
+Each skill has its own folder containing:
 
-General install pattern:
+- `SKILL.md` — the instructions the agent reads
+- `README.md` — usage, examples, and limitations
 
-```bash
-git clone https://github.com/stevesohcot/claude-skills.git
-cp -r claude-skills/<skill-name> ~/.claude/skills/    # Claude Code
-```
+To install a skill:
 
-For Claude.ai / Claude Desktop / Claude Cowork, download the specific skill's folder (or a packaged `.skill` file, if provided) and upload it via Settings → Capabilities → Skills.
+- **Chat apps (Claude, ChatGPT):** download the skill's folder as a .zip and upload it under your agent's skills settings.
+- **CLI agents (Claude Code, Codex):** copy the folder into your agent's skills directory, e.g. `skills/<skill-name>/SKILL.md`.
+
+Check each skill's README for anything specific to it.
 
 ## About
 
